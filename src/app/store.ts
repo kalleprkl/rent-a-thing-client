@@ -1,17 +1,23 @@
 import { configureStore, ThunkAction, Action } from '@reduxjs/toolkit'
-import thingsReducer from "./thingsReducer"
+import { thingsReducer, ThingsReducer } from "./thingsReducer"
 
-const asyncMiddleWare = (storeAPI: any) => (next: any) => (action: any) => {
+const asyncMiddleWare = (store: any) => (next: any) => (action: any) => {
   if (typeof action === 'function') {
-    return action(storeAPI.dispatch, storeAPI.getState)
+    return action(store.dispatch, store.getState)
   }
   return next(action)
 }
 
+interface RootReducer {
+  things: ThingsReducer
+}
+
+const rootReducer: RootReducer = {
+  things: thingsReducer
+}
+
 export const store = configureStore({
-  reducer: {
-    things: thingsReducer,
-  },
+  reducer: rootReducer,
   middleware: [asyncMiddleWare]
 })
 
