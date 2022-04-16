@@ -1,15 +1,13 @@
-import React, { useState, useEffect } from 'react';
-import { fetchThings } from "./services/api"
+import React from 'react';
+import { useAppSelector } from "./app/hooks"
 
 function App() {
-  //const [data, setData] = useState([])
-  //useEffect(() => {
-  //  (async () => setData(await fetchThings()))()
-  //}, [])
+  const things = useAppSelector(state => state.things)
+  console.log(things)
   return (
     <div>
       <ul>
-        {/*data.map((item: any) => <li>{item.id}</li>)*/}
+        {things.map((item: any) => <li>{item.id}</li>)}
       </ul>
     </div>
   );

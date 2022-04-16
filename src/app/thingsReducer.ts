@@ -5,7 +5,7 @@ interface ThingsState {
 export default (state: ThingsState[] = [], action: any) => {
     switch (action.type) {
         case 'things/add':
-            return [action.payload,...state]
+            return action.payload
         default:
             return state
     }
