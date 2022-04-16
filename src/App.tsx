@@ -1,11 +1,16 @@
-import React from 'react';
+import React, { useState, useEffect } from 'react';
 import { fetchThings } from "./services/api"
 
 function App() {
-  fetchThings()
+  const [data, setData] = useState([])
+  useEffect(() => {
+    (async () => setData(await fetchThings()))()
+  }, [])
   return (
     <div>
-      kissa
+      <ul>
+        {data.map((item: any) => <li>{item.id}</li>)}
+      </ul>
     </div>
   );
 }
