@@ -5,7 +5,7 @@ export const rentalApi = createApi({
     reducerPath: "rentalApi",
     baseQuery: fetchBaseQuery({ baseUrl: "http://localhost:5000/api"}),
     endpoints: builder => ({
-        fetchAllThings: builder.query<Thing, void>({
+        fetchAllThings: builder.query<Thing[], void>({
           query: () => "Things",
         }),
       }),

@@ -1,27 +1,17 @@
-import React from 'react'
-import ReactDOM from 'react-dom/client'
-import { Provider } from 'react-redux'
-import App from './App'
-import { store } from "./app/store"
-import { fetchThings } from "./api/things"
-
-//const initAction = async () => {
-//  return {
-//    type: "things/add",
-//    payload: await fetchThings()
-//  }
-//}
-//
-//(async () => store.dispatch(await initAction()))()
+import React from "react"
+import ReactDOM from "react-dom/client"
+import { ApiProvider } from "@reduxjs/toolkit/query/react"
+import { rentalApi } from "./app/api"
+import App from "./App"
 
 const root = ReactDOM.createRoot(
-  document.getElementById('root') as HTMLElement
+  document.getElementById("root") as HTMLElement
 )
 root.render(
   <React.StrictMode>
-    <Provider store={store}>
+    <ApiProvider api={rentalApi}>
       <App />
-    </Provider>
+    </ApiProvider>
   </React.StrictMode>
 )
 
