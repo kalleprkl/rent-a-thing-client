@@ -1,6 +1,7 @@
-import axios from "axios"
+import request from "./request"
+import { Thing } from "../Types"
 
-export const fetchThings = async () => {
-    const responseData = (await axios.get("http://localhost:5000/api/Things")).data
+export const fetchThings = async (): Promise<Thing[]> => {
+    const responseData = (await request.get("Things")).data
     return responseData
 }

@@ -1,14 +1,21 @@
-interface ThingsState {
-    id: number
-}
+import { createAction,createAsyncThunk, createReducer } from '@reduxjs/toolkit'
+import { Thing } from "../types"
+import { fetchThings } from '../api/things'
 
-export type ThingsReducer = typeof thingsReducer
+const fetchAllThings = createAsyncThunk<Thing[]>("things/fetchAllThings", async thunkAPI => await fetchThings())
 
-export const thingsReducer = (state: ThingsState[] = [], action: any) => {
-    switch (action.type) {
-        case 'things/add':
-            return action.payload
-        default:
-            return state
+const initialState: Thing[] = []
+
+export const thingsReducer = createReducer(initialState, builder => {
+    builder.addCase(fetchAllThings, (state, action) => {
+        state = [...state, ...action.payload]
+    })
+})
+
+export const showThings = async thunk => {
+    showThingsAction.
+    return {
+      type: "things/fetchAllThings",
+      payload: await fetchThings()
     }
-}
+  }

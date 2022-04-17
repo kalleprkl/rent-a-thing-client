@@ -3,16 +3,16 @@ import ReactDOM from 'react-dom/client'
 import { Provider } from 'react-redux'
 import App from './App'
 import { store } from "./app/store"
-import { fetchThings } from "./services/api"
+import { fetchThings } from "./api/things"
 
-const initAction = async () => {
-  return {
-    type: "things/add",
-    payload: await fetchThings()
-  }
-}
-
-(async () => store.dispatch(await initAction()))()
+//const initAction = async () => {
+//  return {
+//    type: "things/add",
+//    payload: await fetchThings()
+//  }
+//}
+//
+//(async () => store.dispatch(await initAction()))()
 
 const root = ReactDOM.createRoot(
   document.getElementById('root') as HTMLElement

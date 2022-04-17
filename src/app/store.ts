@@ -1,17 +1,11 @@
 import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-import { thingsReducer, ThingsReducer } from "./thingsReducer"
+import { thingsReducer } from "./thingsReducer"
 import thunkMiddleware from "redux-thunk"
 
-interface RootReducer {
-  things: ThingsReducer
-}
-
-const rootReducer: RootReducer = {
-  things: thingsReducer
-}
-
 export const store = configureStore({
-  reducer: rootReducer,
+  reducer: {
+    things: thingsReducer
+  },
   middleware: [thunkMiddleware]
 })
 
