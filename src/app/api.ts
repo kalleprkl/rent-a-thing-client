@@ -1,5 +1,4 @@
 import { createApi, fetchBaseQuery } from '@reduxjs/toolkit/query/react'
-import type { Thing } from '../types'
 
 export const rentalApi = createApi({
     reducerPath: "rentalApi",
@@ -12,3 +11,17 @@ export const rentalApi = createApi({
 })
 
 export const { useFetchAllThingsQuery } = rentalApi
+
+export interface Customer {
+    id: number
+}
+
+export interface Thing {
+    id: number
+}
+
+export interface Contract {
+    id: number,
+    customerId: number,
+    thingId: number
+}
