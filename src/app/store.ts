@@ -1,19 +1,14 @@
-import { configureStore, ThunkAction, Action } from "@reduxjs/toolkit"
-import { thingsReducer } from "./thingsReducer"
-import thunkMiddleware from "redux-thunk"
+import { configureStore } from "@reduxjs/toolkit"
+import { setupListeners } from '@reduxjs/toolkit/query'
+import { rentalApi } from './api'
 
 export const store = configureStore({
   reducer: {
-    things: thingsReducer
+    [rentalApi.reducerPath]: rentalApi.reducer
   },
-  middleware: [thunkMiddleware]
+  middleware: (getDefaultMiddleware) =>
+    getDefaultMiddleware().concat(rentalApi.middleware),
 })
 
-export type AppDispatch = typeof store.dispatch;
-export type RootState = ReturnType<typeof store.getState>;
-export type AppThunk<ReturnType = void> = ThunkAction<
-  ReturnType,
-  RootState,
-  unknown,
-  Action<string>
->
+setupListeners(store.dispatch)
+
