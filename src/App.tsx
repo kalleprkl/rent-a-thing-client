@@ -1,16 +1,14 @@
-import React from "react"
+import React, { useState } from "react"
 import { useFetchAllThingsQuery } from "./app/api"
+import { Thing } from "./types"
 
-function App() {
-  const handleClick = () => () => ""
-  const { data, error, isLoading } = useFetchAllThingsQuery()
+const App = () => {
+  const { data: things } = useFetchAllThingsQuery()
   return (
     <div>
-      <ul>
-        {data?.map((item: any) => <li key={item.id} onClick={handleClick()}>{item.id}</li>)}
-      </ul>
+      {things?.map(thing => thing.id)}
     </div>
-  );
+  )
 }
 
 export default App;
