@@ -17,7 +17,7 @@ const App = () => {
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography>Accordion 1</Typography>
+          <Typography>Customer</Typography>
         </AccordionSummary>
         <AccordionDetails>
           
@@ -29,12 +29,11 @@ const App = () => {
           aria-controls="panel2a-content"
           id="panel2a-header"
         >
-          <Typography>Accordion 2</Typography>
+          <Typography>Contract</Typography>
         </AccordionSummary>
         <AccordionDetails>
           <Typography>
-            Lorem ipsum dolor sit amet, consectetur adipiscing elit. Suspendisse
-            malesuada lacus ex, sit amet blandit leo lobortis eget.
+            
           </Typography>
         </AccordionDetails>
       </Accordion>
@@ -44,7 +43,7 @@ const App = () => {
           aria-controls="panel3a-content"
           id="panel3a-header"
         >
-          <Typography>Disabled Accordion</Typography>
+          <Typography>Thing</Typography>
         </AccordionSummary>
       </Accordion>
     </div>
