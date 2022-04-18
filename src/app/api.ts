@@ -16,9 +16,9 @@ export const rentalApi = createApi({
       }),
 })
 
-export const { useFetchAllThingsQuery, useFetchContractsByCustomerQuery } = rentalApi
+export const { useFetchAllCustomersQuery, useFetchAllThingsQuery, useFetchContractsByCustomerQuery } = rentalApi
 
-export type UseQueryApi = typeof useFetchAllThingsQuery | typeof useFetchContractsByCustomerQuery
+export type UseQueryApi = typeof useFetchAllCustomersQuery | typeof useFetchAllThingsQuery | typeof useFetchContractsByCustomerQuery
 
 export interface BaseType {
     id: number

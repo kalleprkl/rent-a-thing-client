@@ -6,10 +6,14 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
 import VirtualizedList from "./VirtualizedList"
 
-import React from "react"
-import { useFetchAllThingsQuery } from "./app/api"
+import React, { useState } from "react"
+import { Customer, AppData, useFetchAllCustomersQuery, useFetchAllThingsQuery, useFetchContractsByCustomerQuery } from "./app/api"
+
+export type EventListener = (arg0: AppData) => () => void
 
 const App = () => {
+  const [selectedCustomer, setSelectedCustomer] = useState<Customer | undefined>(undefined)
+  const handleClick = (customer: Customer) => () => setSelectedCustomer(customer)
   return (
     <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
       <Accordion>
@@ -21,7 +25,7 @@ const App = () => {
           <Typography>Customer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <VirtualizedList api={useFetchAllThingsQuery} />
+          <VirtualizedList showAction={useFetchAllCustomersQuery} eventListener={handleClick} />
         </AccordionDetails>
       </Accordion>
       <Accordion>
