@@ -7,10 +7,11 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import VirtualizedList from "./VirtualizedList"
 
 import React from "react"
+import { useFetchAllThingsQuery } from "./app/api"
 
 const App = () => {
   return (
-    <div>
+    <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
       <Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -20,7 +21,7 @@ const App = () => {
           <Typography>Customer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <VirtualizedList api={"fetchAllThings"} />
+          <VirtualizedList api={useFetchAllThingsQuery} />
         </AccordionDetails>
       </Accordion>
       <Accordion>

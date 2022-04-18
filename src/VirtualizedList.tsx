@@ -6,22 +6,14 @@ import ListItemText from '@mui/material/ListItemText';
 import * as React from 'react';
 import { FixedSizeList, ListChildComponentProps } from 'react-window';
 import { AppData } from "./app/api"
-import { useFetchAllThingsQuery } from "./app/api"
-
-interface Actions { 
-  fetchAllThings: typeof useFetchAllThingsQuery
- }
-
-const actions: Actions = {
-  fetchAllThings: useFetchAllThingsQuery
-}
+import { useFetchAllThingsQuery, UseQueryApi } from "./app/api"
 
 interface VirtualizedListProps {
-  api: string
+  api: UseQueryApi
 }
 
 export default function VirtualizedList(props: VirtualizedListProps) {
-  const { data } = actions["fetchAllThings"]()
+  const { data } = props.api()
   const renderRow = (props: ListChildComponentProps<Array<AppData>>) => {
     const { index, style } = props
     if (!data) {
