@@ -18,16 +18,17 @@ export const rentalApi = createApi({
 
 export const { useFetchAllThingsQuery, useFetchContractsByCustomerQuery } = rentalApi
 
-export interface Customer {
+export interface BaseType {
     id: number
 }
 
-export interface Thing {
-    id: number
-}
+export interface Customer extends BaseType {}
 
-export interface Contract {
-    id: number,
+export interface Thing extends BaseType {}
+
+export interface Contract extends BaseType {
     customerId: number,
     thingId: number
 }
+
+export type AppData = Customer | Thing | Contract

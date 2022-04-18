@@ -4,11 +4,11 @@ import AccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 
+import VirtualizedList from "./VirtualizedList"
+
 import React from "react"
-import { useFetchAllThingsQuery, useFetchContractsByCustomerQuery } from "./app/api"
 
 const App = () => {
-  const { data: things } = useFetchAllThingsQuery()
   return (
     <div>
       <Accordion>
@@ -20,7 +20,7 @@ const App = () => {
           <Typography>Customer</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          
+          <VirtualizedList api={"fetchAllThings"} />
         </AccordionDetails>
       </Accordion>
       <Accordion>
