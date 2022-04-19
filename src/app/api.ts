@@ -7,8 +7,8 @@ export const rentalApi = createApi({
         fetchAllCustomers: builder.query<Customer[], void>({
             query: () => "Customers"
         }),
-        fetchContractsByCustomer: builder.query<Contract[], void>({
-            query: customerId => `Customers${customerId}`
+        fetchContractsByCustomer: builder.query<Contract[], number>({
+            query: (customerId?: number) => `Customers${customerId}`
         }),
         fetchAllThings: builder.query<Thing[], void>({
           query: () => "Things",
