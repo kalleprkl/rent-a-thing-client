@@ -2,13 +2,11 @@ import Box from "@mui/material/Box"
 import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
-import { Navigate } from "react-router-dom"
-
 import { FixedSizeList, ListChildComponentProps } from "react-window"
 
-import React, { useEffect, useState } from "react"
-import { skipToken } from "@reduxjs/toolkit/query/react"
-import { AppData, Customer, useFetchAllCustomersQuery, useFetchAllThingsQuery, UseQueryApi } from "./app/api"
+import React from "react"
+import { AppData } from "./app/api"
+import { UseQueryStateResult } from "@reduxjs/toolkit/dist/query/react/buildHooks"
 
 const renderRow = (data: Array<AppData> | undefined) => (props: ListChildComponentProps<Array<AppData>>) => {
   const { index, style } = props
@@ -26,13 +24,14 @@ const renderRow = (data: Array<AppData> | undefined) => (props: ListChildCompone
 }
 
 interface VirtualizedListProps {
-  path: string,
+  //query: (arg0?: Array<AppData>) => UseQueryStateResult<QueryDefinition<Array<AppData>>, Array<AppData>>
+  query(arg0?: any): UseQueryStateResult<any, any>
 }
 
 export default React.memo((props: VirtualizedListProps) => {
-  const { path } = props
+  const { query } = props
   let data: Array<AppData> | undefined
-  data = useFetchAllCustomersQuery().data
+  data = query().data
   return (
     <Box
       sx={{ width: "100%", height: 200, maxWidth: 360, bgcolor: "background.paper" }}
