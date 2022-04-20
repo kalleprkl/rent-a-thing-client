@@ -2,13 +2,13 @@ import Box from "@mui/material/Box"
 import ListItem from "@mui/material/ListItem"
 import ListItemButton from "@mui/material/ListItemButton"
 import ListItemText from "@mui/material/ListItemText"
-import { useLocation } from "react-router-dom"
+import { Navigate } from "react-router-dom"
 
 import { FixedSizeList, ListChildComponentProps } from "react-window"
 
 import React, { useEffect, useState } from "react"
+import { skipToken } from "@reduxjs/toolkit/query/react"
 import { AppData, Customer, useFetchAllCustomersQuery, useFetchAllThingsQuery, UseQueryApi } from "./app/api"
-import { ResultTypeFrom } from "@reduxjs/toolkit/dist/query/endpointDefinitions"
 
 const renderRow = (data: Array<AppData> | undefined) => (props: ListChildComponentProps<Array<AppData>>) => {
   const { index, style } = props
@@ -19,40 +19,20 @@ const renderRow = (data: Array<AppData> | undefined) => (props: ListChildCompone
   return (
     <ListItem style={style} key={index} component="div" disablePadding>
       <ListItemButton onClick={() => { }}>
-        <ListItemText primary={`Item ${data[index].id}`} />
+        <ListItemText primary={`Item ${appDataObject.id}`} />
       </ListItemButton>
     </ListItem>
   )
 }
 
-//interface VirtualizedListProps {
-//  showAction: UseQueryApi,
-//}
-
-const mapLocationAction: { [location: string]: UseQueryApi } = {
-  "Customers": useFetchAllCustomersQuery
+interface VirtualizedListProps {
+  path: string,
 }
 
-//type QueryAction = (arg0?: string) => rentalApi.
-
-//export default function VirtualizedList(props: VirtualizedListProps) {
-export default function VirtualizedList() {
-  const location = useLocation()
-  const { data } = useFetchAllCustomersQuery()
-  //const [data, setData] = useState<Array<AppData>>([])
-  //useEffect(
-  //  () => {
-  //    let resData: Array<AppData> | undefined
-  //    if (location.pathname === "Customers") {
-  //      const response = useFetchAllCustomersQuery()
-  //      resData = response.data
-  //    }
-  //    if (resData) {
-  //      setData(resData)
-  //    }
-  //  },
-  //  [location]
-  //)
+export default React.memo((props: VirtualizedListProps) => {
+  const { path } = props
+  let data: Array<AppData> | undefined
+  data = useFetchAllCustomersQuery().data
   return (
     <Box
       sx={{ width: "100%", height: 200, maxWidth: 360, bgcolor: "background.paper" }}
@@ -67,5 +47,5 @@ export default function VirtualizedList() {
         {renderRow(data)}
       </FixedSizeList>
     </Box>
-  );
-}
+  )
+})

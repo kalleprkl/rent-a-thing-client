@@ -6,32 +6,63 @@ import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import VirtualizedList from "./VirtualizedList"
 
 import React, { useState } from "react"
-import { useLocation, Link, Route, Routes } from "react-router-dom"
+import { useLocation, useNavigate, Link, Navigate, Route, Routes } from "react-router-dom"
 
-const AppAccordion = () => {
-  const location = useLocation().pathname
-  const [expanded, setExpanded] = useState(false)
-  console.log(location)
-  const List = expanded && location === "/Customers" ? () => <VirtualizedList /> : () => <div />
-  console.log(expanded)
+interface AppAccordionProps {
+  name: string,
+}
+
+//const AppAccordion = (props: AppAccordionProps) => {
+//  const { namespace } = props
+//  const path = `/${namespace}`
+//  const location = useLocation().pathname
+//  const [expanded, setExpanded] = useState(false)
+//  console.log(location)
+//  const List = expanded && location === path ? () => <VirtualizedList /> : () => <div />
+//  console.log(expanded)
+//  return (
+//    <Accordion onChange={(event, expanded) => setExpanded(expanded)}>
+//      <Link to={path} >
+//        <AccordionSummary
+//          expandIcon={<ExpandMoreIcon />}
+//          aria-controls="panel1a-content"
+//          id="panel1a-header"
+//        >
+//          <Typography>{namespace}</Typography>
+//        </AccordionSummary>
+//      </Link>
+//      <AccordionDetails>
+//        <Routes>
+//          <Route path={path} element={<List />} />
+//        </Routes>
+//      </AccordionDetails>
+//    </Accordion>
+//  )
+//}
+
+const AppAccordion = (props: AppAccordionProps) => {
+  const { name } = props
+  const location = useLocation()
+  //const [expanded, setExpanded] = useState(false)
+  const navigate = useNavigate()
   return (
-    <Accordion onChange={(event, expanded) => setExpanded(expanded)}>
-      <Link to="/Customers">
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel1a-content"
-          id="panel1a-header"
-        >
-          <Typography>Customer</Typography>
-        </AccordionSummary>
-      </Link>
-      <Routes>
-        <Route path="/Customers" element={<AccordionDetails>
-          <List />
-        </AccordionDetails>} />
-      </Routes>
-
-
+    <Accordion onChange={(event, expanded) => expanded ? navigate(name) : navigate(-1)} >
+      <AccordionSummary
+        expandIcon={<ExpandMoreIcon />}
+        aria-controls="panel1a-content"
+        id="panel1a-header"
+      >
+        <Typography>{name}</Typography>
+      </AccordionSummary>
+      <AccordionDetails>
+        {
+          location.pathname === `/${name}` ? (
+            <>
+              <VirtualizedList path={name} />
+            </>
+          ) : <div />
+          }
+      </AccordionDetails>
     </Accordion>
   )
 }
@@ -39,7 +70,7 @@ const AppAccordion = () => {
 export const App = () => {
   return (
     <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
-      <AppAccordion />
+      <AppAccordion name="Customers" />
       {/*<Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
