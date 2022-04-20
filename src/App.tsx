@@ -7,7 +7,7 @@ import VirtualizedList from "./VirtualizedList"
 
 import React from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useFetchAllCustomersQuery, QueryAction } from "./app/api"
+import { useFetchAllCustomersQuery, QueryAction, useFetchContractsByCustomerQuery } from "./app/api"
 
 interface AppAccordionProps {
   name: string,
@@ -15,8 +15,8 @@ interface AppAccordionProps {
   query: QueryAction
 }
 
-const AppAccordion = (props: AppAccordionProps) => {
-  const { name, next, query } = props
+const AppAccordion: React.FC<AppAccordionProps> = (props) => {
+  const { name, next, query, children } = props
   const path = `/${name}`
   const location = useLocation()
   const navigate = useNavigate()
@@ -46,27 +46,7 @@ export const App = () => {
   return (
     <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
       <AppAccordion name="Customers" next="Contracts" query={useFetchAllCustomersQuery} />
-      {/*<Accordion>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel2a-content"
-          id="panel2a-header"
-        >
-          <Typography>Contract</Typography>
-        </AccordionSummary>
-        <AccordionDetails>
-          <VirtualizedList />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion disabled>
-        <AccordionSummary
-          expandIcon={<ExpandMoreIcon />}
-          aria-controls="panel3a-content"
-          id="panel3a-header"
-        >
-          <Typography>Thing</Typography>
-        </AccordionSummary>
-      </Accordion>*/}
+      <AppAccordion name="Contracts" next="Things" query={useFetchContractsByCustomerQuery} />
     </div>
   )
 }
