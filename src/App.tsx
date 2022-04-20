@@ -5,16 +5,18 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import VirtualizedList from "./VirtualizedList"
 
-import React, { useState } from "react"
+import React from "react"
 import { useLocation, useNavigate } from "react-router-dom"
-import { useFetchAllCustomersQuery } from "./app/api"
+import { useFetchAllCustomersQuery, QueryAction } from "./app/api"
 
 interface AppAccordionProps {
   name: string,
+  next: string,
+  query: QueryAction
 }
 
 const AppAccordion = (props: AppAccordionProps) => {
-  const { name } = props
+  const { name, next, query } = props
   const path = `/${name}`
   const location = useLocation()
   const navigate = useNavigate()
@@ -31,7 +33,7 @@ const AppAccordion = (props: AppAccordionProps) => {
         {
           location.pathname === path ? (
             <>
-              <VirtualizedList query={useFetchAllCustomersQuery} />
+              <VirtualizedList query={query} next={next} />
             </>
           ) : <div />
           }
@@ -43,7 +45,7 @@ const AppAccordion = (props: AppAccordionProps) => {
 export const App = () => {
   return (
     <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
-      <AppAccordion name="Customers" />
+      <AppAccordion name="Customers" next="Contracts" query={useFetchAllCustomersQuery} />
       {/*<Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
