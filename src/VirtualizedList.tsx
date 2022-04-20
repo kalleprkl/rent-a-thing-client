@@ -38,20 +38,21 @@ const mapLocationAction: { [location: string]: UseQueryApi } = {
 //export default function VirtualizedList(props: VirtualizedListProps) {
 export default function VirtualizedList() {
   const location = useLocation()
-  const [data, setData] = useState<Array<AppData>>([])
-  useEffect(
-    () => {
-      let resData: Array<AppData> | undefined
-      if (location.pathname === "Customers") {
-        const response = useFetchAllCustomersQuery()
-        resData = response.data
-      }
-      if (resData) {
-        setData(resData)
-      }
-    },
-    [location]
-  )
+  const { data } = useFetchAllCustomersQuery()
+  //const [data, setData] = useState<Array<AppData>>([])
+  //useEffect(
+  //  () => {
+  //    let resData: Array<AppData> | undefined
+  //    if (location.pathname === "Customers") {
+  //      const response = useFetchAllCustomersQuery()
+  //      resData = response.data
+  //    }
+  //    if (resData) {
+  //      setData(resData)
+  //    }
+  //  },
+  //  [location]
+  //)
   return (
     <Box
       sx={{ width: "100%", height: 200, maxWidth: 360, bgcolor: "background.paper" }}

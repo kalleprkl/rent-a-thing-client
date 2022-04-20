@@ -7,13 +7,13 @@ import React from "react"
 import * as ReactDOM from "react-dom"
 import { ApiProvider } from "@reduxjs/toolkit/query/react"
 import { rentalApi } from "./app/api"
-import App from "./App"
+import Router from "./Router"
 
 const container = document.getElementById("root") as HTMLElement
 ReactDOM.render(
   <React.StrictMode>
     <ApiProvider api={rentalApi}>
-      <App />
+      <Router />
     </ApiProvider>
   </React.StrictMode>,
   container

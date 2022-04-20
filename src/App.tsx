@@ -5,12 +5,18 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import VirtualizedList from "./VirtualizedList"
 
-import React from "react"
+import React, { useState } from "react"
+import { useLocation, Link, Route, Routes } from "react-router-dom"
 
-export const App = () => {
+const AppAccordion = () => {
+  const location = useLocation().pathname
+  const [expanded, setExpanded] = useState(false)
+  console.log(location)
+  const List = expanded && location === "/Customers" ? () => <VirtualizedList /> : () => <div />
+  console.log(expanded)
   return (
-    <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
-      <Accordion>
+    <Accordion onChange={(event, expanded) => setExpanded(expanded)}>
+      <Link to="/Customers">
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
@@ -18,11 +24,23 @@ export const App = () => {
         >
           <Typography>Customer</Typography>
         </AccordionSummary>
-        <AccordionDetails>
-          <VirtualizedList />
-        </AccordionDetails>
-      </Accordion>
-      <Accordion disabled >
+      </Link>
+      <Routes>
+        <Route path="/Customers" element={<AccordionDetails>
+          <List />
+        </AccordionDetails>} />
+      </Routes>
+
+
+    </Accordion>
+  )
+}
+
+export const App = () => {
+  return (
+    <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
+      <AppAccordion />
+      {/*<Accordion>
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel2a-content"
@@ -42,7 +60,7 @@ export const App = () => {
         >
           <Typography>Thing</Typography>
         </AccordionSummary>
-      </Accordion>
+      </Accordion>*/}
     </div>
   )
 }
