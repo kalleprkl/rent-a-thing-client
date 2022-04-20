@@ -6,7 +6,7 @@ import { FixedSizeList, ListChildComponentProps } from "react-window"
 
 import React from "react"
 import { AppData } from "./app/api"
-import { UseQueryStateResult } from "@reduxjs/toolkit/dist/query/react/buildHooks"
+import { UseQueryStateResult, UseQuery } from "@reduxjs/toolkit/dist/query/react/buildHooks"
 
 const renderRow = (data: Array<AppData> | undefined) => (props: ListChildComponentProps<Array<AppData>>) => {
   const { index, style } = props
@@ -25,7 +25,8 @@ const renderRow = (data: Array<AppData> | undefined) => (props: ListChildCompone
 
 interface VirtualizedListProps {
   //query: (arg0?: Array<AppData>) => UseQueryStateResult<QueryDefinition<Array<AppData>>, Array<AppData>>
-  query(arg0?: any): UseQueryStateResult<any, any>
+  query: () => UseQueryStateResult<any, any>
+  //query: () => UseQuery<Array<AppData>>
 }
 
 export default React.memo((props: VirtualizedListProps) => {
