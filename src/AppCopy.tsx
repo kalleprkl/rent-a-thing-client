@@ -3,70 +3,82 @@ import AccordionSummary from "@mui/material/AccordionSummary"
 import AccordionDetails from "@mui/material/AccordionDetails"
 import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
-import VirtualizedList from "./VirtualizedList"
+import VirtualizedList from "./VirtualizedListCopy"
 
 import React, { useEffect } from "react"
 import { Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useFetchAllCustomersQuery, QueryAction, useFetchContractsByCustomerQuery } from "./app/api"
 
 interface AppAccordionProps {
-  name: string,
-  next: string,
-  query: QueryAction
+  //name: string,
+  //next: string,
+  //query: QueryAction
 }
 
 const AppAccordion: React.FC<AppAccordionProps> = props => {
-  const { name, next, query, children } = props
-  const location = useLocation()
-  const navigate = useNavigate()
-  const params = useParams()
-  const path = location.pathname
-  console.log(Object.keys(params))
   return (
-    <Accordion expanded={location.pathname === path} onChange={(event, expanded) => expanded ? navigate(`${path}/${name}`) : navigate(-1)} >
+    <Accordion onChange={(event, expanded) => ""} >
       <AccordionSummary
         expandIcon={<ExpandMoreIcon />}
         aria-controls="panel1a-content"
         id="panel1a-header"
       >
-        <Typography>{name}</Typography>
+        <Typography>{""}</Typography>
       </AccordionSummary>
       <AccordionDetails>
         {
-          location.pathname === path ? (
-            <Routes>
-              <Route path={`${name}/:id`} element={<VirtualizedList query={query} next={next} />} />
-              <Route path={`${name}`} element={<VirtualizedList query={query} next={next} />} />
-
-            </Routes>
-          ) : <div />
+          <Routes>
+            <Route path={""} element={<VirtualizedList />} />
+          </Routes>
         }
       </AccordionDetails>
     </Accordion>
   )
 }
 
+interface PathObject {
+  name: string,
+  id: number
+}
+
 export const App = () => {
   const navigate = useNavigate()
-  useEffect(() => navigate("/"), [])
+  useEffect(() => navigate("Customers/1/Contracts/1"), [])
+  const path = useLocation().pathname
+  const pathSections = path.split("/").slice(1)
+  const pathObjects = [] 
+  let pathObject = {} as PathObject
+  for (const section of pathSections) {
+    const maybeId = Number(section)
+    if (maybeId) {
+      pathObject.id = maybeId
+      pathObjects.push(pathObject)
+      pathObject = {} as PathObject
+    } else {
+      pathObject.name = section
+    }
+  }
+  console.log(path)
+  console.log(pathSections)
+  console.log(pathObjects)
   return (
     <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
-      <Accordion>
+      <Accordion onChange={(event, expanded) => ""} >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
           aria-controls="panel1a-content"
           id="panel1a-header"
         >
-          <Typography></Typography>
+          <Typography>{""}</Typography>
         </AccordionSummary>
         <AccordionDetails>
-          <Routes>
-            <Route />
-          </Routes>
+          {
+            <Routes>
+              <Route path={""} element={<VirtualizedList />} />
+            </Routes>
+          }
         </AccordionDetails>
       </Accordion>
-      <AppAccordion name="Customers" next="Contracts" query={useFetchAllCustomersQuery} />
-      <AppAccordion name="Contracts" next="Things" query={useFetchContractsByCustomerQuery} />
     </div>
   )
 }
