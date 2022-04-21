@@ -5,9 +5,11 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import VirtualizedList from "./VirtualizedListCopy"
 
-import React, { useEffect } from "react"
 import { Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom"
-import { useFetchAllCustomersQuery, QueryAction, useFetchContractsByCustomerQuery } from "./app/api"
+
+import React, { useEffect } from "react"
+import { skipToken } from "@reduxjs/toolkit/dist/query"
+import { useFetchAllCustomersQuery, AppData, QueryAction, useFetchContractsByCustomerQuery } from "./app/api"
 
 interface AppAccordionProps {
   //name: string,
@@ -41,12 +43,17 @@ interface PathObject {
   id: number
 }
 
+interface QueryActions {
+  Customers: typeof useFetchAllCustomersQuery,
+  Contracts: typeof useFetchContractsByCustomerQuery
+}
+
 export const App = () => {
   const navigate = useNavigate()
   useEffect(() => navigate("Customers/1/Contracts/1"), [])
   const path = useLocation().pathname
   const pathSections = path.split("/").slice(1)
-  const pathObjects = [] 
+  const pathObjects = []
   let pathObject = {} as PathObject
   for (const section of pathSections) {
     const maybeId = Number(section)
@@ -58,11 +65,11 @@ export const App = () => {
       pathObject.name = section
     }
   }
-  console.log(path)
-  console.log(pathSections)
-  console.log(pathObjects)
-  return (
-    <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
+  const appElements = pathObjects.map(({ name, id }) => {
+    let data: Array<AppData> | undefined
+    data = useFetchAllCustomersQuery(name === "Customers" ? undefined : skipToken).data
+    data = useFetchContractsByCustomerQuery(name === "Contracts" ? id ?? skipToken : skipToken).data
+    return () => (
       <Accordion onChange={(event, expanded) => ""} >
         <AccordionSummary
           expandIcon={<ExpandMoreIcon />}
@@ -79,6 +86,11 @@ export const App = () => {
           }
         </AccordionDetails>
       </Accordion>
+    )
+  })
+  return (
+    <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
+      {appElements.map(AppElement => <AppElement />)}
     </div>
   )
 }
