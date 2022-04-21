@@ -5,8 +5,8 @@ import Typography from "@mui/material/Typography"
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore"
 import VirtualizedList from "./VirtualizedList"
 
-import React from "react"
-import { useLocation, useNavigate } from "react-router-dom"
+import React, { useEffect } from "react"
+import { Route, Routes, useLocation, useNavigate, useParams } from "react-router-dom"
 import { useFetchAllCustomersQuery, QueryAction, useFetchContractsByCustomerQuery } from "./app/api"
 
 interface AppAccordionProps {
@@ -15,11 +15,13 @@ interface AppAccordionProps {
   query: QueryAction
 }
 
-const AppAccordion: React.FC<AppAccordionProps> = (props) => {
+const AppAccordion: React.FC<AppAccordionProps> = props => {
   const { name, next, query, children } = props
   const path = `/${name}`
   const location = useLocation()
   const navigate = useNavigate()
+  const params = useParams()
+  console.log(Object.keys(params))
   return (
     <Accordion expanded={location.pathname === path} onChange={(event, expanded) => expanded ? navigate(name) : navigate("/")} >
       <AccordionSummary
@@ -32,17 +34,21 @@ const AppAccordion: React.FC<AppAccordionProps> = (props) => {
       <AccordionDetails>
         {
           location.pathname === path ? (
-            <>
-              <VirtualizedList query={query} next={next} />
-            </>
+            <Routes>
+              <Route path={`${name}/:id`} element={<VirtualizedList query={query} next={next} />} />
+              <Route path={`${name}`} element={<VirtualizedList query={query} next={next} />} />
+
+            </Routes>
           ) : <div />
-          }
+        }
       </AccordionDetails>
     </Accordion>
   )
 }
 
 export const App = () => {
+  const navigate = useNavigate()
+  useEffect(() => navigate("/"), [])
   return (
     <div style={{ width: "60%", marginLeft: "auto", marginRight: "auto" }}>
       <AppAccordion name="Customers" next="Contracts" query={useFetchAllCustomersQuery} />

@@ -6,7 +6,6 @@ export default () => {
         <BrowserRouter>
             <Routes>
                 <Route path="/*" element={<App />} />
-                
             </Routes>
         </BrowserRouter>
     )
